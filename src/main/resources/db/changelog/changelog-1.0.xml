@@ -1,0 +1,117 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="1" author="siphelele">
+        <sql>
+            CREATE TABLE user (
+            userId VARCHAR(255) NOT NULL,
+            username VARCHAR(255) NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            surname VARCHAR(255) NOT NULL,
+            role VARCHAR(255) NOT NULL,
+            CONSTRAINT PK_id PRIMARY KEY (userId)
+            );
+        </sql>
+        <rollback>
+            DROP table user
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="siphelele">
+        <sql>
+            CREATE TABLE trip (
+            tripId VARCHAR(255) NOT NULL,
+            pickupAddress VARCHAR(1000) NOT NULL,
+            destinationAddress VARCHAR(1000) NOT NULL,
+            price DOUBLE NOT NULL,
+            userId VARCHAR(255) NOT NULL,
+            tripDate VARCHAR(255) NOT NULL,
+            CONSTRAINT PK_id PRIMARY KEY (tripId)
+            );
+        </sql>
+        <rollback>
+            DROP table trip
+        </rollback>
+    </changeSet>
+
+    <changeSet id="3" author="siphelele">
+        <sql>
+            DROP table trip
+        </sql>
+        <rollback>
+            DROP table trip
+        </rollback>
+    </changeSet>
+
+    <changeSet id="4" author="siphelele">
+        <sql>
+            CREATE TABLE trip (
+            tripId VARCHAR(255) NOT NULL,
+            userId VARCHAR(225) NOT NULL,
+            pickupAddress VARCHAR(1000) NOT NULL,
+            destinationAddress VARCHAR(1000) NOT NULL,
+            price DOUBLE NOT NULL,
+            tripDate DATE NOT NULL,
+            CONSTRAINT PK_id PRIMARY KEY (tripId),
+            CONSTRAINT FK_trip_user FOREIGN KEY (userId) REFERENCES user(userId)
+            ON DELETE CASCADE ON UPDATE CASCADE);
+        </sql>
+        <rollback>
+            DROP table trip
+        </rollback>
+    </changeSet>
+
+    <changeSet id="5" author="siphelele">
+        <sql>
+            CREATE TABLE driver (
+            driverId VARCHAR(255) NOT NULL,
+            username VARCHAR(255) NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            surname VARCHAR(255) NOT NULL,
+            role VARCHAR(255) NOT NULL,
+            CONSTRAINT PK_id PRIMARY KEY (driverId)
+            );
+        </sql>
+        <rollback>
+            DROP table user
+        </rollback>
+    </changeSet>
+
+    <changeSet id="6" author="siphelele">
+        <sql>
+            DROP table trip
+        </sql>
+        <rollback>
+            DROP table trip
+        </rollback>
+    </changeSet>
+
+    <changeSet id="7" author="siphelele">
+        <sql>
+            CREATE TABLE trip (
+            tripId VARCHAR(255) NOT NULL,
+            driverId VARCHAR(225) NOT NULL,
+            userId VARCHAR(225) NOT NULL,
+            pickupAddress VARCHAR(1000) NOT NULL,
+            destinationAddress VARCHAR(1000) NOT NULL,
+            price DOUBLE NOT NULL,
+            tripDate DATE NOT NULL,
+            CONSTRAINT PK_id PRIMARY KEY (tripId),
+            CONSTRAINT FK_trip_driver FOREIGN KEY (driverId) REFERENCES driver(driverId),
+            CONSTRAINT FK_trip_user FOREIGN KEY (userId) REFERENCES user(userId) ON DELETE CASCADE ON UPDATE CASCADE);
+        </sql>
+        <rollback>
+            DROP table trip
+        </rollback>
+    </changeSet>
+
+
+</databaseChangeLog>
